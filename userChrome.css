@@ -1,0 +1,42 @@
+@import url("./contextmenu.css");
+
+#tabbrowser-tabs {
+    --user-tab-rounding: 6px;
+    transition-duration: 200ms;
+}
+.tab-background {
+    border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important; /* Connected */
+    margin-block: 1px 0 !important; /* Connected */
+}
+#TabsToolbar, #tabbrowser-tabs { 
+    --tab-min-height: 29px !important;
+}
+    /* [Connected Tabs] Set a max height based on min-height plus margin-block: 1px 0 */
+#TabsToolbar, #TabsToolbar > hbox, #TabsToolbar-customization-target, #tabbrowser-arrowscrollbox  {
+    max-height: calc(var(--tab-min-height) + 1px) !important;
+}
+    /* [Connected Tabs] Adjust padding around icons on buttons to avoid crushed images */
+#TabsToolbar-customization-target toolbarbutton > .toolbarbutton-icon, 
+#TabsToolbar-customization-target .toolbarbutton-text, 
+#TabsToolbar-customization-target .toolbarbutton-badge-stack,
+#scrollbutton-up,#scrollbutton-down {
+    padding-top: 7px !important;
+    padding-bottom: 6px !important;
+}
+.tab-background[selected], .tab-background[multiselected="true"] {
+	outline: none !important;
+	border: solid transparent !important;
+}
+.tab-background {
+	outline: none !important;
+}
+#navigator-toolbox::after {
+    border-bottom: 0px !important;
+}
+#nav-bar {
+    box-shadow: none !important;
+    border-top: none !important;
+}
+menuitem {
+    transition-duration: 200ms;
+}
