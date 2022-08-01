@@ -38,5 +38,9 @@
     border-top: none !important;
 }
 menuitem {
-    transition-duration: 200ms;
+    transition-duration: 100ms;
+}
+
+.menupopup-arrowscrollbox {
+    --panel-background: var(--arrowpanel-background);
 }
