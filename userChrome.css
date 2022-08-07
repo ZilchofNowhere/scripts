@@ -1,46 +1,148 @@
-@import url("./contextmenu.css");
-
 #tabbrowser-tabs {
     --user-tab-rounding: 6px;
-    transition-duration: 200ms;
+    transition-duration: 200ms !important;
+    box-shadow: none !important;
 }
+
 .tab-background {
-    border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important; /* Connected */
-    margin-block: 1px 0 !important; /* Connected */
+    border-radius: var(--user-tab-rounding) var(--user-tab-rounding) 0px 0px !important;
+    /* Connected */
+    margin-block: 1px 0 !important;
+    /* Connected */
+    box-shadow: none !important;
 }
-#TabsToolbar, #tabbrowser-tabs { 
+
+#TabsToolbar,
+#tabbrowser-tabs {
     --tab-min-height: 29px !important;
 }
-    /* [Connected Tabs] Set a max height based on min-height plus margin-block: 1px 0 */
-#TabsToolbar, #TabsToolbar > hbox, #TabsToolbar-customization-target, #tabbrowser-arrowscrollbox  {
+
+/* [Connected Tabs] Set a max height based on min-height plus margin-block: 1px 0 */
+#TabsToolbar,
+#TabsToolbar>hbox,
+#TabsToolbar-customization-target,
+#tabbrowser-arrowscrollbox {
     max-height: calc(var(--tab-min-height) + 1px) !important;
 }
-    /* [Connected Tabs] Adjust padding around icons on buttons to avoid crushed images */
-#TabsToolbar-customization-target toolbarbutton > .toolbarbutton-icon, 
-#TabsToolbar-customization-target .toolbarbutton-text, 
+
+/* [Connected Tabs] Adjust padding around icons on buttons to avoid crushed images */
+#TabsToolbar-customization-target toolbarbutton>.toolbarbutton-icon,
+#TabsToolbar-customization-target .toolbarbutton-text,
 #TabsToolbar-customization-target .toolbarbutton-badge-stack,
-#scrollbutton-up,#scrollbutton-down {
+#scrollbutton-up,
+#scrollbutton-down {
     padding-top: 7px !important;
     padding-bottom: 6px !important;
 }
-.tab-background[selected], .tab-background[multiselected="true"] {
-	outline: none !important;
-	border: solid transparent !important;
+
+.tab-background[selected],
+.tab-background[multiselected="true"] {
+    outline: none !important;
+    border: solid transparent !important;
+    box-shadow: none !important;
 }
+
 .tab-background {
-	outline: none !important;
+    outline: none !important;
 }
+
 #navigator-toolbox::after {
     border-bottom: 0px !important;
 }
+
 #nav-bar {
     box-shadow: none !important;
     border-top: none !important;
 }
+
 menuitem {
     transition-duration: 100ms;
 }
 
 .menupopup-arrowscrollbox {
     --panel-background: var(--arrowpanel-background);
+}
+
+/* contextMenu.css */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+#context-navigation>.menuitem-iconic {
+    -moz-box-flex: 1;
+    -moz-box-pack: center;
+    -moz-box-align: center;
+}
+
+#context-navigation>.menuitem-iconic>.menu-iconic-left {
+    /* appearance: none; */
+}
+
+#context-navigation>.menuitem-iconic>.menu-iconic-left>.menu-iconic-icon {
+    width: 1.25em;
+    height: auto;
+    margin: 7px;
+    -moz-context-properties: fill;
+    fill: currentColor;
+    transition-duration: 100ms;
+    border-radius: 4px;
+}
+
+#context-back {
+    list-style-image: url("chrome://browser/skin/back.svg");
+    transition-duration: 100ms;
+    border-radius: 4px;
+
+}
+
+#context-forward {
+    list-style-image: url("chrome://browser/skin/forward.svg");
+    transition-duration: 100ms;
+    border-radius: 4px;
+
+}
+
+#context-reload {
+    list-style-image: url("chrome://global/skin/icons/reload.svg");
+    transition-duration: 100ms;
+    border-radius: 4px;
+
+}
+
+#context-stop {
+    list-style-image: url("chrome://global/skin/icons/close.svg");
+    transition-duration: 100ms;
+    border-radius: 4px;
+
+}
+
+#context-bookmarkpage {
+    list-style-image: url("chrome://browser/skin/bookmark-hollow.svg");
+    transition-duration: 100ms;
+
+    border-radius: 4px;
+}
+
+#context-bookmarkpage[starred=true] {
+    list-style-image: url("chrome://browser/skin/bookmark.svg");
+    transition-duration: 100ms;
+    border-radius: 4px;
+}
+
+#context-back:-moz-locale-dir(rtl),
+#context-forward:-moz-locale-dir(rtl),
+#context-reload:-moz-locale-dir(rtl) {
+    transform: scaleX(-1);
+    transition-duration: 100ms;
+    border-radius: 4px;
+}
+
+#context-media-eme-learnmore {
+    list-style-image: url("chrome://browser/skin/drm-icon.svg");
+    -moz-context-properties: fill;
+    fill: currentColor;
+    transition-duration: 100ms;
+    border-radius: 4px;
 }
