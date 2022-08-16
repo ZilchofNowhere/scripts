@@ -19,6 +19,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'joshdick/onedark.vim'
 Plug 'https://github.com/tpope/vim-commentary'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tmsvg/pear-tree'
+Plug 'mattn/emmet-vim'
 
 call plug#end()
 
@@ -30,3 +32,17 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
+
+"Customizing pear-tree
+let g:pear_tree_pairs = {
+            \ '(': {'closer': ')'},
+            \ '[': {'closer': ']'},
+            \ '{': {'closer': '}'},
+            \ "'": {'closer': "'"},
+            \ '"': {'closer': '"'},
+            \ '/*': {'closer': '*/'},
+            \ }
+
+" Customizing Coc.nvim
+" Mapping tab to autocomplete (not yet working)
+inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<TAB>\<c-r>=coc#enter()\<TAB>"
