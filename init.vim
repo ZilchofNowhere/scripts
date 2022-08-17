@@ -44,5 +44,5 @@ let g:pear_tree_pairs = {
             \ }
 
 " Customizing Coc.nvim
-" Mapping Ctrl-Enter to autocomplete 
-inoremap <silent><expr> <C-CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<C-CR>\<c-r>=coc#enter()\<C-CR>"
+" Mapping F7 to autocomplete 
+inoremap <silent><expr> <F7> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<F7>\<c-r>=coc#enter()\<F7>"
