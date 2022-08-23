@@ -26,6 +26,8 @@ Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'https://github.com/PhilRunninger/nerdtree-visual-selection.git'
 Plug 'Mofiqul/vscode.nvim'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'} 
+Plug 'andweeb/presence.nvim' 
 Plug 'doums/darcula'
 
 " Always set as the last one
@@ -64,6 +66,12 @@ let g:pear_tree_pairs = {
 " Customizing Coc.nvim
 " Mapping F2 to autocomplete 
 inoremap <silent><expr> <F2> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<F2>\<c-r>=coc#enter()\<F2>"
+
+" Remapping Ctrl-D to multi-select because of convenience and to avoid overlap
+" with NERDTree shortcut 
+let g:VM_maps = {}
+let g:VM_maps['Find Under'] = '<C-d>' " replace C-n
+let g:VM_maps['Find Subword Under'] = '<C-d>'
 
 " Customizing NERDTree
 nnoremap <leader>n :NERDTreeFocus<CR>
