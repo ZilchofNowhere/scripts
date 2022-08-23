@@ -63,4 +63,7 @@ nnoremap <C-f> :NERDTreeFind<CR>
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " Close the tab if NERDTree is the only window remaining in it.
-a
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" Remap <leader>n to visual block mode because Windows Terminal sees Ctrl-V as paste
+nnoremap <leader>v <C-v> 
