@@ -17,7 +17,7 @@ call plug#begin()
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
-Plug 'joshdick/onedark.vim'
+Plug 'navarasu/onedark.nvim'
 Plug 'https://github.com/tpope/vim-commentary'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tmsvg/pear-tree'
@@ -25,10 +25,18 @@ Plug 'mattn/emmet-vim'
 Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'https://github.com/PhilRunninger/nerdtree-visual-selection.git'
+Plug 'Mofiqul/vscode.nvim'
+Plug 'doums/darcula'
+
 " Always set as the last one
 Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
+
+" Customizing onedark.nvim
+let g:onedark_config = {
+            \ 'style': 'deep',
+            \}
 
 " Color scheme
 colorscheme onedark
@@ -38,6 +46,10 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = '' 
+let g:airline#extensions#whitespace#enabled = 0
 
 "Customizing pear-tree
 let g:pear_tree_pairs = {
