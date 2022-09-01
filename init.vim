@@ -30,6 +30,7 @@ Plug 'Mofiqul/vscode.nvim'
 Plug 'andweeb/presence.nvim' 
 Plug 'doums/darcula'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'mhinz/vim-startify'
 
 " Always set as the last one
 Plug 'ryanoasis/vim-devicons'
@@ -100,3 +101,15 @@ cnoreabbrev <expr> Q ((getcmdtype() is# ':' && getcmdline() is# 'Q')?('q'):('Q')
 
 " Aliasing `set autochdir` to 'Cd'
 command Cd set autochdir 
+
+" Customizing Startify
+"let g:startify_custom_header = startify#pad(split(system('figlet -w 100 "Welcome to Neovim"'), '\n')) 
+let g:startify_files_number = 5
+let g:startify_lists = [
+            \{"type": "files",    "header": ["\t\tRecent files"]},
+            \{"type": "sessions", "header": ["\t\tRecent sessions"]},
+            \{"type": "commands", "header": ["\t\tCommands"]}
+            \]
+let g:startify_fortune_use_unicode = 1
+let g:startify_padding_left = 5
+let g:startify_custom_header = 'startify#pad(startify#fortune#cowsay())'
