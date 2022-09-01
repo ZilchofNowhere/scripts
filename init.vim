@@ -14,21 +14,22 @@ set tabstop=4 softtabstop=4 expandtab shiftwidth=4 smarttab autoindent
 " default plugin directory is ~/vimfiles/plugged
 call plug#begin()
 
+Plug 'https://github.com/tpope/vim-commentary' 
+Plug 'http://github.com/tpope/vim-surround'
+Plug 'tmsvg/pear-tree'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'} 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'sheerun/vim-polyglot'
 Plug 'navarasu/onedark.nvim'
-Plug 'https://github.com/tpope/vim-commentary'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'tmsvg/pear-tree'
+Plug 'sheerun/vim-polyglot'
 Plug 'mattn/emmet-vim'
 Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'https://github.com/PhilRunninger/nerdtree-visual-selection.git'
 Plug 'Mofiqul/vscode.nvim'
-Plug 'mg979/vim-visual-multi', {'branch': 'master'} 
 Plug 'andweeb/presence.nvim' 
 Plug 'doums/darcula'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Always set as the last one
 Plug 'ryanoasis/vim-devicons'
@@ -43,11 +44,16 @@ let g:onedark_config = {
 " Color scheme
 colorscheme onedark
 
-" Customizing Airline
+" Customizing Airline 
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
+let g:airline_symbols.readonly = ''
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = '' 
@@ -87,3 +93,10 @@ autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTa
 
 " Remap <leader>n to visual block mode because Windows Terminal sees Ctrl-V as paste
 nnoremap <leader>v <C-v> 
+
+" Getting rid of the stupid W (or Q) is not a command error
+cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
+cnoreabbrev <expr> Q ((getcmdtype() is# ':' && getcmdline() is# 'Q')?('q'):('Q'))
+
+" Aliasing `set autochdir` to 'Cd'
+command Cd set autochdir 
