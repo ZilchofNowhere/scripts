@@ -2,7 +2,7 @@
 Import-Module 'C:\tools\gsudo\Current\gsudoModule.psd1'
 Import-Module cd-extras
 
-# Aliases
+# Aliases and variables
 sal -name reboot -value restart-computer
 sal -name set-color -value "Set-PSReadLineOption -Colors"
 sal -name get-color -value Get-PSReadLineOption
@@ -11,11 +11,13 @@ sal -name msedge -value MicrosoftEdge.exe
 $Apps = $env:ProgramFiles
 $Appsx86 = ${env:ProgramFiles(x86)}
 $Desktop = "~/Desktop"
-sal -name ls -value logo-ls
+sal -name ls -value lsd
 sal -name adb -value "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
 sal -name cmatrix -value "Invoke-Cmatrix"
 sal -name vim -value "nvim"
 sal -name which -value "find-where"
+sal -name neofetch -value winfetch
+[System.Environment]::SetEnvironmentVariable("LS_COLORS", "$(vivid generate molokai)")
 
 # Theme
 Set-PoshPrompt -Theme aliens
@@ -44,7 +46,13 @@ function find-where {
 	param (
 		$command
 	)
-	scoop which $command
+	gcm $command -all | format-table -wrap -autosize
+}
+
+function notedit {
+	cd $Desktop/Notes
+	vim -c "NERDTree"
+	cd -
 }
 
 # EOF
