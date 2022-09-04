@@ -31,6 +31,10 @@ Plug 'andweeb/presence.nvim'
 Plug 'doums/darcula'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-startify'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'folke/todo-comments.nvim' 
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter-context'
 
 " Always set as the last one
 Plug 'ryanoasis/vim-devicons'
@@ -113,3 +117,14 @@ let g:startify_lists = [
 let g:startify_fortune_use_unicode = 1
 let g:startify_padding_left = 5
 let g:startify_custom_header = 'startify#pad(startify#fortune#cowsay())'
+
+" Lua configurations
+lua << EOF
+    -- Configuring todo-comments.nvim
+    require("todo-comments").setup {
+    -- config here
+    }
+
+    -- Configuring treesitter
+    require 'nvim-treesitter.install'.compilers = { "clang", "gcc" }
+EOF
