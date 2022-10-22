@@ -196,3 +196,8 @@ menupopup > menuitem[disabled][_moz-menuactive],
 menupopup > menu[disabled][_moz-menuactive]{
   background-color: var(--panel-disabled-hover-bg-color) !important;
 }
+
+/** Window control customization */
+toolbarbutton.titlebar-button {
+    transition-duration: 100ms;
+}
