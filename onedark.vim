@@ -4,7 +4,7 @@
 " the [onedark.vim](https://github.com/joshdick/onedark.vim) colorscheme.
 
 " No airline theme other than the default seems to distinguish between command mode and normal mode, so here's one that does so
-" (Replace with the builtin onedark.vim file to use)
+" (Replace with the onedark.vim file of the package vim-airline-themes to use)
 
 " It is based on vim-airline's ["tomorrow" theme](https://github.com/vim-airline/vim-airline-themes/blob/master/autoload/airline/themes/tomorrow.vim).
 function! airline#themes#onedark#refresh()
