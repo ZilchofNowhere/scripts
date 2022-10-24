@@ -114,8 +114,14 @@ cnoreabbrev <expr> Q ((getcmdtype() is# ':' && getcmdline() is# 'Q')?('q'):('Q')
 " Aliasing `set autochdir` to 'Cd'
 command Cd set autochdir 
 
-" Mapping <Space>c to C-w C
+" Mapping Space-c to C-w C
 nnoremap <leader>c <C-w>c 
+
+" Mapping C-a to select all
+nnoremap <C-a> ggVG
+
+" Mapping C-c to copy to system clipboard
+vnoremap <C-c> "+y
 
 " Customizing Startify
 "let g:startify_custom_header = startify#pad(split(system('figlet -w 100 "Welcome to Neovim"'), '\n')) 
@@ -131,10 +137,8 @@ let g:startify_custom_header = 'startify#pad(startify#fortune#cowsay())'
 
 " Lua configurations
 lua << EOF
--- Configuring todo-comments.nvim
-require("todo-comments").setup {
-    -- config here
-}
+
+require("todo-comments").setup() 
 
 require("noice").setup({
 views = {
