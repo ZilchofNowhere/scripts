@@ -1,3 +1,4 @@
+/* paste this to the end of the userChrome.css that you will get from the link that is bookmarked to the Firefox account */
 #tabbrowser-tabs {
     --user-tab-rounding: 6px;
     transition-duration: 200ms !important;
@@ -200,4 +201,52 @@ menupopup > menu[disabled][_moz-menuactive]{
 /** Window control customization */
 toolbarbutton.titlebar-button {
     transition-duration: 100ms;
+}
+
+@supports -moz-bool-pref("userChrome.SelectedTabHighlight-Enabled")
+{
+    .tabbrowser-tab[visuallyselected]:not([pinned]) .tab-background
+    {
+        box-shadow: inset 0 2px 0 var(--tab-loading-fill) !important;
+        transition-duration: 200ms;
+    }
+
+    .tabbrowser-tab[visuallyselected][pinned] .tab-content
+    {
+        background-image: radial-gradient(circle at center, var(--tab-loading-fill) 2px, transparent 2px);
+        transition-duration: 200ms;
+        background-size: 4px 4px;
+        background-repeat: no-repeat;
+    }
+}
+
+.tabbrowser-tab:hover:not([visuallyselected],[multiselected]) .tab-background
+{
+    background-color: var(--toolbarbutton-hover-background) !important;
+    transition-duration: 200ms;
+}
+
+.tabbrowser-tab[multiselected]:not([visuallyselected]) .tab-background
+{
+    transition-duration: 200ms;
+    background-color: var(--toolbarbutton-active-background) !important;
+}
+
+.tabbrowser-tab[pinned] .tab-content
+{
+    padding: 0 calc((var(--tab-min-height) - 16px) / 2 + var(--pinned-tabs-width-offset, 0px)) !important;
+    transition-duration: 200ms;
+}
+
+.tab-stack::before
+{
+    right: 100%;
+    transition-duration: 200ms;
+}
+    
+.tab-stack::after
+{
+    left: 100%;
+    transition-duration: 200ms;
+
 }
