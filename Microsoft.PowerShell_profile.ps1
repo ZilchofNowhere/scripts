@@ -19,6 +19,8 @@ sal -name cmatrix -value "Invoke-Cmatrix"
 sal -name vim -value "nvim"
 sal -name which -value "find-where"
 sal -name neofetch -value winfetch
+sal -name grep -value rg
+sal -name less -value bat
 [System.Environment]::SetEnvironmentVariable("LS_COLORS", "$(vivid generate gruvbox-dark)")
 
 # Theme
@@ -67,6 +69,29 @@ Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
             [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
         }
 }
+
+# pip powershell completion start
+if ((Test-Path Function:\TabExpansion) -and -not `
+    (Test-Path Function:\_pip_completeBackup)) {
+    Rename-Item Function:\TabExpansion _pip_completeBackup
+}
+function TabExpansion($line, $lastWord) {
+    $lastBlock = [regex]::Split($line, '[|;]')[-1].TrimStart()
+    if ($lastBlock.StartsWith("pip ")) {
+        $Env:COMP_WORDS=$lastBlock
+        $Env:COMP_CWORD=$lastBlock.Split().Length - 1
+        $Env:PIP_AUTO_COMPLETE=1
+        (& pip).Split()
+        Remove-Item Env:COMP_WORDS
+        Remove-Item Env:COMP_CWORD
+        Remove-Item Env:PIP_AUTO_COMPLETE
+    }
+    elseif (Test-Path Function:\_pip_completeBackup) {
+        # Fall back on existing tab expansion
+        _pip_completeBackup $line $lastWord
+    }
+}
+# pip powershell completion end
 
 # Instructed to be at the very end
 Invoke-Expression (&starship init powershell)
