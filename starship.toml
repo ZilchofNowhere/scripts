@@ -22,4 +22,5 @@ format = "[$status]($style) "
 
 [time]
 disabled = false
-format = "at ⏱️ [$time]($style)" 
+format = "at  [$time]($style)" 
+
