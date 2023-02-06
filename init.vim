@@ -1,4 +1,6 @@
 set number
+set linebreak
+set shell=pwsh.exe
 set relativenumber
 set scrolloff=5
 set ignorecase
@@ -18,13 +20,19 @@ autocmd VimLeave * silent set guicursor=a:ver10-blinkon1
 " Tab behavior
 set tabstop=4 softtabstop=4 expandtab shiftwidth=4 smarttab autoindent
 
+" Setting the shell to powershell
+let &shell = executable('pwsh.exe') ? 'pwsh.exe' : 'powershell'
+let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+let &shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
+let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+set shellquote= shellxquote=
+
 " Vim-Plug
 " default plugin directory is ~/vimfiles/plugged
 call plug#begin()
 
 Plug 'https://github.com/tpope/vim-commentary' 
 Plug 'http://github.com/tpope/vim-surround'
-Plug 'tmsvg/pear-tree'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'} 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -39,11 +47,11 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'folke/todo-comments.nvim' 
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/nvim-treesitter-context'
-Plug 'MunifTanjim/nui.nvim'
 Plug 'rcarriga/nvim-notify'
-Plug 'folke/noice.nvim'
-Plug 'lewis6991/impatient.nvim'
 Plug 'folke/which-key.nvim'      
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'windwp/nvim-autopairs'
 
 " Always set as the last one
 Plug 'kyazdani42/nvim-web-devicons'
@@ -51,7 +59,16 @@ Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
-lua require("impatient")
+let g:indent_blankline_filetype_exclude = [                                                                
+            \"lspinfo",                                                            
+            \"packer",                                                             
+            \"checkhealth",                                                        
+            \"help",                                                               
+            \"man",                                                                
+            \"",                                                                   
+            \"startify",
+            \"Plugins"
+        \] 
 
 " Customizing onedark.nvim
 let g:onedark_config = {
@@ -76,21 +93,24 @@ let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = '' 
 let g:airline#extensions#whitespace#enabled = 0
 
-" Customizing pear-tree
-let g:pear_tree_pairs = {
-            \ '(': {'closer': ')'},
-            \ '[': {'closer': ']'},
-            \ '{': {'closer': '}'},
-            \ "'": {'closer': "'"},
-            \ '"': {'closer': '"'},
-            \ '/*': {'closer': '*/'},
-            \ }
-
 " Customizing Coc.nvim
 " Mapping F2 in insert mode to autocomplete 
 inoremap <silent><expr> <F2> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<F2>\<c-r>=coc#enter()\<F2>"
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#confirm() :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+
 " Mapping F2 in normal mode to see tooltip
 nnoremap <silent> <F2> :call CocActionAsync('doHover')<CR>
+
+" Highlight hovered word
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remapping Ctrl-D to multi-select because of convenience and to avoid overlap
 " with NERDTree shortcut 
@@ -104,6 +124,8 @@ nnoremap <C-n> :Neotree<CR>
 nnoremap <C-t> :NeoTreeShowToggle<CR>
 nnoremap <C-f> :NeoTreeFind<CR>
 
+" Mapping Space-e to open explorer
+nnoremap <Space>e :!explorer .<CR>
 " Remap <leader>n to visual block mode because Windows Terminal sees Ctrl-V as paste
 nnoremap <leader>v <C-v> 
 
@@ -123,6 +145,18 @@ nnoremap <C-a> ggVG
 " Mapping C-c to copy to system clipboard
 vnoremap <C-c> "+y
 
+" Mapping C-s to save
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <C-o>:w<CR>
+
+" Mapping Space-h to remove highlight
+nnoremap <leader>h :noh<CR>
+vnoremap <leader>h :noh<CR>
+
+" Mapping H and L to switch buffers
+nnoremap H :bp<CR>
+nnoremap L :bn<CR>
+
 " Customizing Startify
 "let g:startify_custom_header = startify#pad(split(system('figlet -w 100 "Welcome to Neovim"'), '\n')) 
 let g:startify_files_number = 5
@@ -139,38 +173,6 @@ let g:startify_custom_header = 'startify#pad(startify#fortune#cowsay())'
 lua << EOF
 
 require("todo-comments").setup() 
-
-require("noice").setup({
-views = {
-    cmdline_popup = {
-        position = {
-            row = 5,
-            col = "50%",
-            },
-            size = {
-                width = 60,
-                height = "auto",
-                },
-            },
-            popupmenu = {
-                relative = "editor",
-                position = {
-                    row = 8,
-                    col = "50%",
-                    },
-                size = {
-                    width = 60,
-                    height = 10,
-                    },
-                border = {
-                    style = "rounded",
-                    padding = { 0, 1 },
-                    },
-                win_options = {
-                    winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
-                    },
-                },
-}})
 
 -- Configuring treesitter
 require 'nvim-treesitter.install'.compilers = { "clang", "gcc" }
@@ -196,4 +198,14 @@ require "neo-tree".setup {
 
 require("which-key").setup()
 
+require("nvim-autopairs").setup {
+  enable_check_bracket_line = false
+}
+
 EOF
+
+" Neovide configuration
+if exists("g:neovide")
+    set guifont=RecMonoCustom\ NF:h12
+    let g:neovide_remember_window_size = v:true
+endif
