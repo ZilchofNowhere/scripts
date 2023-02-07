@@ -1,6 +1,9 @@
 # Python: 3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]
 # Library: cv2, version: 4.4.0
 # Module: cv2.cv2, version: 4.4.0
+
+# Put at $(python -c "import cv2, os; print(os.path.dirname(cv2.__file__))")/__init__.pyi
+
 import typing
 import builtins as _mod_builtins
 import cv2 as _mod_cv2
