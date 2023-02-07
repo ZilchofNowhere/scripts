@@ -1,0 +1,32 @@
+{
+    "java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-17.0.4",
+    "clangd.fallbackFlags": ["-std=c++2b"],
+    "suggest.completionItemKindLabels": {
+        "variable": "\uea88",
+        "function": "\uea8c",
+        "method": "\uea8c",
+        "constant": "\ueb5d",
+        "struct": "\uea91",
+        "class": "\ueb5b",
+        "interface": "\ueb61",
+        "text": "\u0284",
+        "enum": "\uea95",
+        "enumMember": "\ueb5e",
+        "color": "\ueb5c",
+        "property": "\ueb65",
+        "field": "\ueb5f",
+        "unit": "\udb83\udce8",
+        "constructor": "\u0169",
+        "module": "\ueb9c",
+        "file": "\ueb60",
+        "value": "\uea90",
+        "event": "\uea86",
+        "folder": "\ue5ff",
+        "keyword": "\ueb62",
+        "snippet": "\ueb66",
+        "operator": "\ueb64",
+        "reference": "\ueb36",
+        "typeParameter": "\uea92",
+        "default": "\ue612"
+    }
+}
