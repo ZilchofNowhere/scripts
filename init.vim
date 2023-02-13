@@ -1,4 +1,6 @@
 set number
+set cursorline
+set cursorlineopt=both
 set linebreak
 set shell=pwsh.exe
 set relativenumber
@@ -28,7 +30,7 @@ let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 set shellquote= shellxquote=
 
 " Vim-Plug
-" default plugin directory is ~/vimfiles/plugged
+" default plugin directory is ~/vimfiles/plugged  NOTE: not valid for neovim
 call plug#begin()
 
 Plug 'https://github.com/tpope/vim-commentary' 
@@ -39,7 +41,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'navarasu/onedark.nvim'
 Plug 'sheerun/vim-polyglot'
 Plug 'mattn/emmet-vim'
-Plug 'nvim-neo-tree/neo-tree.nvim'
 Plug 'andweeb/presence.nvim' 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'mhinz/vim-startify'
@@ -52,6 +53,8 @@ Plug 'folke/which-key.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'windwp/nvim-autopairs'
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python -m chadtree deps'}
+Plug 'tomasiser/vim-code-dark'
 
 " Always set as the last one
 Plug 'kyazdani42/nvim-web-devicons'
@@ -112,21 +115,19 @@ nnoremap <silent> <F2> :call CocActionAsync('doHover')<CR>
 " Highlight hovered word
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
+" Changing warning and error icons
+let airline#extensions#coc#warning_symbol = ''
+let airline#extensions#coc#error_symbol = ''
+
 " Remapping Ctrl-D to multi-select because of convenience and to avoid overlap
 " with NERDTree shortcut 
 let g:VM_maps = {}
 let g:VM_maps['Find Under'] = '<C-d>' " replace C-n
 let g:VM_maps['Find Subword Under'] = '<C-d>'
 
-" Customizing NERDTree
-nnoremap <leader>n :NeoTreeFocusToggle<CR>
-nnoremap <C-n> :Neotree<CR>
-nnoremap <C-t> :NeoTreeShowToggle<CR>
-nnoremap <C-f> :NeoTreeFind<CR>
-
 " Mapping Space-e to open explorer
 nnoremap <Space>e :!explorer .<CR>
-" Remap <leader>n to visual block mode because Windows Terminal sees Ctrl-V as paste
+" Remap <leader>v to visual block mode because Windows Terminal sees Ctrl-V as paste
 nnoremap <leader>v <C-v> 
 
 " Getting rid of the stupid W (or Q) is not a command error
@@ -136,8 +137,13 @@ cnoreabbrev <expr> Q ((getcmdtype() is# ':' && getcmdline() is# 'Q')?('q'):('Q')
 " Aliasing `set autochdir` to 'Cd'
 command Cd set autochdir 
 
-" Mapping Space-c to C-w C
-nnoremap <leader>c <C-w>c 
+" Mapping common window operations to Space
+nnoremap <leader>c <C-w>c
+nnoremap <leader>j <C-w>j
+nnoremap <leader>k <C-w>k
+nnoremap <leader>l <C-w>l
+nnoremap <leader>h <C-w>h
+nnoremap <leader>d :bd<CR>
 
 " Mapping C-a to select all
 nnoremap <C-a> ggVG
@@ -150,12 +156,21 @@ nnoremap <C-s> :w<CR>
 inoremap <C-s> <C-o>:w<CR>
 
 " Mapping Space-h to remove highlight
-nnoremap <leader>h :noh<CR>
-vnoremap <leader>h :noh<CR>
+nnoremap <leader>g :noh<CR>
+
+" Mapping Space-f to open init.vim
+nnoremap <leader>f :e ~/AppData/Local/nvim/init.vim<CR>
 
 " Mapping H and L to switch buffers
 nnoremap H :bp<CR>
 nnoremap L :bn<CR>
+
+" Mapping C-x to run the file
+nnoremap <C-x> :!run %<CR>
+inoremap <C-x> <C-o>:!run %<CR>
+
+" Mapping Space-s to open Startify
+nnoremap <leader>s :Startify<CR>
 
 " Customizing Startify
 "let g:startify_custom_header = startify#pad(split(system('figlet -w 100 "Welcome to Neovim"'), '\n')) 
@@ -168,6 +183,15 @@ let g:startify_lists = [
 let g:startify_fortune_use_unicode = 1
 let g:startify_padding_left = 5
 let g:startify_custom_header = 'startify#pad(startify#fortune#cowsay())'
+
+" Customizing chadtree
+nnoremap <leader>n :CHADopen<CR>
+let g:chadtree_settings = {
+            \'options.show_hidden' : v:false,
+            \'ignore.name_exact' : [".DS_Store, .directory, thumbs.db", ".git", "desktop.ini"],
+            \'view.width' : 20,
+            \'theme.text_colour_set': "nerdtree_syntax_dark"
+            \}
 
 " Lua configurations
 lua << EOF
@@ -184,18 +208,6 @@ require 'nvim-treesitter.configs'.setup {
     }
     }
 
-require "neo-tree".setup {
-    close_if_last_window = true,
-    filesystem = {
-        filtered_items = {
-            visible = true,
-            never_show = {
-                "desktop.ini"
-            }
-            }
-        }
-    }
-
 require("which-key").setup()
 
 require("nvim-autopairs").setup {
@@ -203,9 +215,3 @@ require("nvim-autopairs").setup {
 }
 
 EOF
-
-" Neovide configuration
-if exists("g:neovide")
-    set guifont=RecMonoCustom\ NF:h12
-    let g:neovide_remember_window_size = v:true
-endif
