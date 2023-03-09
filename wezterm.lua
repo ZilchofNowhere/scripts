@@ -1,28 +1,5 @@
 local wezterm = require "wezterm"
-local defprog = { "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.2.0_x64__8wekyb3d8bbwe\\pwsh.exe", "-NoLogo", "-NoExit", "-c", "please" }
--- BUG: Cant "convert it to SpawnCommand" for some reason
--- local launch_menu = {}
-
--- table.insert(launch_menu, {
---     {
---         args = { "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.2.0_x64__8wekyb3d8bbwe\\pwsh.exe" },
---     }
--- })
-
--- for _, vsvers in ipairs(wezterm.glob('Microsoft Visual Studio/20*', 'C:/Program Files (x86)'))
--- do
---     local year = vsvers:gsub('Microsoft Visual Studio/', '')
---     table.insert(launch_menu, {
---             label = 'x64 Native Tools VS ' .. year,
---             args = {
---                 'cmd.exe',
---                 '/k',
---                 'C:/Program Files (x86)/'
---                 .. vsvers
---                 .. '/BuildTools/VC/Auxiliary/Build/vcvars64.bat',
---             },
---         })
--- end
+local defprog = { "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.3.0_x64__8wekyb3d8bbwe\\pwsh.exe", "-NoLogo", "-NoExit", "-c", "please" }
 
 wezterm.on(
     'format-window-title',
@@ -37,8 +14,22 @@ wezterm.on(
 
 return {
     default_prog = defprog,
-    -- launch_menu = launch_menu,
-    font = wezterm.font "CodeNewRoman NFM",
+    launch_menu = {
+        { 
+            label = "cmd",
+            args = { "cmd" } 
+        },
+        {
+            label = "PowerShell",
+            args = {"C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.2.0_x64__8wekyb3d8bbwe\\pwsh.exe", "-nol", "-noe", "-c", "-please"}
+        },
+        {
+            label = "Bash",
+            args = {"C:\\Users\\aekma\\scoop\\apps\\git\\current\\bin\\bash.exe"}
+        }
+    },
+    use_fancy_tab_bar = false,
+    font = wezterm.font "Mononoki NFM",
     color_scheme = "Breeze",
     window_frame = {
         font = wezterm.font { family = "Gotham", weight = "Bold"}
@@ -58,4 +49,7 @@ return {
     initial_cols = 110,
     hide_tab_bar_if_only_one_tab = true,
     adjust_window_size_when_changing_font_size = false,
+    keys = {
+        { key = 's', mods = 'CTRL|SHIFT', action = wezterm.action.ShowLauncher },
+    }
 }
