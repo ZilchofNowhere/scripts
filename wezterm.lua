@@ -12,6 +12,14 @@ wezterm.on(
     end
     )
 
+function scheme_for_appearance(appearance)
+    if appearance:find 'Dark' then
+        return 'Breeze'
+    else
+        return 'One Light (Gogh)'
+    end
+end
+
 return {
     default_prog = defprog,
     launch_menu = {
@@ -21,16 +29,21 @@ return {
         },
         {
             label = "PowerShell",
-            args = {"C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.2.0_x64__8wekyb3d8bbwe\\pwsh.exe", "-nol", "-noe", "-c", "-please"}
+            args = {"C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.2.0_x64__8wekyb3d8bbwe\\pwsh.exe", "-nol", "-noe", "-c", "please"}
         },
         {
             label = "Bash",
             args = {"C:\\Users\\aekma\\scoop\\apps\\git\\current\\bin\\bash.exe"}
+        },
+        {
+            label = "Developer PowerShell",
+            args = {'powershell.exe', '-noe', '-c', '&{Import-Module "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/Microsoft.VisualStudio.DevShell.dll"; Enter-VsDevShell b556515b -SkipAutomaticLocation -DevCmdArguments "-arch=x64 -host_arch=x64"}',}
         }
     },
     use_fancy_tab_bar = false,
     font = wezterm.font "Mononoki NFM",
-    color_scheme = "Breeze",
+    color_scheme_dirs = { './colors' },
+    color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
     window_frame = {
         font = wezterm.font { family = "Gotham", weight = "Bold"}
     },
@@ -51,5 +64,5 @@ return {
     adjust_window_size_when_changing_font_size = false,
     keys = {
         { key = 's', mods = 'CTRL|SHIFT', action = wezterm.action.ShowLauncher },
-    }
+    },
 }
