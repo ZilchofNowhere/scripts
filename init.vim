@@ -1,3 +1,4 @@
+set guifont=Hasklug\ NFM:h11
 set number
 set cursorline
 set cursorlineopt=both
@@ -15,6 +16,7 @@ set nofoldenable
 set foldnestmax=10
 set foldlevel=2
 set signcolumn=auto
+set cmdheight=0
 set timeoutlen=200
 let mapleader = "\<Space>"
 autocmd VimLeave * silent set guicursor=a:ver10-blinkon1
@@ -23,7 +25,8 @@ autocmd VimLeave * silent set guicursor=a:ver10-blinkon1
 set tabstop=4 softtabstop=4 expandtab shiftwidth=4 smarttab autoindent
 
 " Setting the shell to powershell
-let &shell = executable('pwsh.exe') ? 'pwsh.exe' : 'powershell'
+let &shell = executable('pwsh.exe') ? 'pwsh' : 'powershell'
+" let &shell = 'pwsh'
 let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
 let &shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
 let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
@@ -36,8 +39,8 @@ call plug#begin()
 Plug 'https://github.com/tpope/vim-commentary' 
 Plug 'http://github.com/tpope/vim-surround'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'} 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'navarasu/onedark.nvim'
 Plug 'sheerun/vim-polyglot'
 Plug 'mattn/emmet-vim'
@@ -49,12 +52,17 @@ Plug 'folke/todo-comments.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'rcarriga/nvim-notify'
+Plug 'vifm/vifm.vim'
 Plug 'folke/which-key.nvim'      
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'windwp/nvim-autopairs'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python -m chadtree deps'}
 Plug 'tomasiser/vim-code-dark'
+Plug 'nacro90/numb.nvim'
+Plug 'xeluxee/competitest.nvim'
+" Plug 'glepnir/galaxyline.nvim' , { 'branch': 'main' }
+Plug 'rebelot/heirline.nvim'
 
 " Always set as the last one
 Plug 'kyazdani42/nvim-web-devicons'
@@ -82,19 +90,19 @@ let g:onedark_config = {
 colorscheme onedark
 
 " Customizing Airline 
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
+" if !exists('g:airline_symbols')
+"     let g:airline_symbols = {}
+" endif
 
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.readonly = ''
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = '' 
-let g:airline#extensions#whitespace#enabled = 0
+" let g:airline_left_sep = ''
+" let g:airline_left_alt_sep = ''
+" let g:airline_right_sep = ''
+" let g:airline_right_alt_sep = ''
+" let g:airline_symbols.readonly = ''
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#left_sep = ''
+" let g:airline#extensions#tabline#left_alt_sep = '' 
+" let g:airline#extensions#whitespace#enabled = 0
 
 " Customizing Coc.nvim
 " Mapping F2 in insert mode to autocomplete 
@@ -109,15 +117,32 @@ inoremap <silent><expr> <TAB>
       \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
 
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
 " Mapping F2 in normal mode to see tooltip
 nnoremap <silent> <F2> :call CocActionAsync('doHover')<CR>
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
 
 " Highlight hovered word
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Changing warning and error icons
-let airline#extensions#coc#warning_symbol = ''
-let airline#extensions#coc#error_symbol = ''
+" let airline#extensions#coc#warning_symbol = ''
+" let airline#extensions#coc#error_symbol = ''
 
 " Remapping Ctrl-D to multi-select because of convenience and to avoid overlap
 " with NERDTree shortcut 
@@ -174,7 +199,7 @@ nnoremap <leader>s :Startify<CR>
 
 " Customizing Startify
 "let g:startify_custom_header = startify#pad(split(system('figlet -w 100 "Welcome to Neovim"'), '\n')) 
-let g:startify_files_number = 5
+let g:startify_files_number = 10
 let g:startify_lists = [
             \{"type": "files",    "header": ["\t\tRecent files"]},
             \{"type": "sessions", "header": ["\t\tRecent sessions"]},
@@ -194,24 +219,5 @@ let g:chadtree_settings = {
             \}
 
 " Lua configurations
-lua << EOF
-
-require("todo-comments").setup() 
-
--- Configuring treesitter
-require 'nvim-treesitter.install'.compilers = { "clang", "gcc" }
-
-require 'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = true,
-        disable = { "c", "cpp", "css", "html" }
-    }
-    }
-
-require("which-key").setup()
-
-require("nvim-autopairs").setup {
-  enable_check_bracket_line = false
-}
-
-EOF
+lua require("init")
+lua require("hlconfig")

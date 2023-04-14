@@ -1,5 +1,4 @@
 {
-    "java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-17.0.4",
     "clangd.fallbackFlags": ["-std=c++2b"],
     "suggest.completionItemKindLabels": {
         "variable": "\uea88",
@@ -28,5 +27,10 @@
         "reference": "\ueb36",
         "typeParameter": "\uea92",
         "default": "\ue612"
-    }
+    },
+    "snippets.ultisnips.pythonPrompt": false,
+    "suggest.formatItems": ["kind", "abbr", "shortcut"],
+    "xml.java.home": "C:\\Users\\aekma\\scoop\\apps\\openjdk17\\current",
+    "sh.commandPath": "C:\\Users\\aekma\\AppData\\Local\\coc\\extensions\\node_modules\\coc-sh\\node_modules\\.bin\\bash-language-server.cmd",
+    "diagnostic.errorSign": "",
 }
