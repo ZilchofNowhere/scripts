@@ -1,5 +1,14 @@
 add_newline = false
-format = "$all$time$line_break$jobs$battery$status$container$shell$character"
+format = "$all$time$shell$line_break$jobs$battery$status$container$character"
+command_timeout = 20000
+
+[directory]
+format = '[$path]($style) [$read_only]($read_only_style) '
+use_os_path_sep = false
+truncation_symbol = '.../'
+
+[directory.substitutions]
+'C:' = ''
 
 [character]
 success_symbol = "[❯](bold green)"
@@ -24,3 +33,9 @@ format = "[$status]($style) "
 disabled = false
 format = "at  [$time]($style)" 
 
+[shell]
+powershell_indicator = "_"
+nu_indicator = "nu"
+cmd_indicator = ""
+disabled = false
+format = " on [$indicator]($style)"

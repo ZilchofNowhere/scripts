@@ -1,5 +1,7 @@
 local wezterm = require "wezterm"
-local defprog = { "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.3.0_x64__8wekyb3d8bbwe\\pwsh.exe", "-NoLogo", "-NoExit", "-c", "please" }
+local def_prog = { "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.3.0_x64__8wekyb3d8bbwe\\pwsh.exe", "-NoLogo", "-NoExit", "-c", "please" }
+
+-- local def_prog = { "C:\\Users\\aekma\\scoop\\apps\\git\\current\\bin\\bash.exe" }
 
 wezterm.on(
     'format-window-title',
@@ -12,7 +14,7 @@ wezterm.on(
     end
     )
 
-function scheme_for_appearance(appearance)
+local function scheme_for_appearance(appearance)
     if appearance:find 'Dark' then
         return 'Breeze'
     else
@@ -21,18 +23,17 @@ function scheme_for_appearance(appearance)
 end
 
 return {
-    default_prog = defprog,
     launch_menu = {
-        { 
+        {
             label = "cmd",
-            args = { "cmd" } 
+            args = { "cmd" },
         },
         {
             label = "PowerShell",
-            args = {"C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.2.0_x64__8wekyb3d8bbwe\\pwsh.exe", "-nol", "-noe", "-c", "please"}
+            args = {"C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.3.0_x64__8wekyb3d8bbwe\\pwsh.exe", "-nol", "-noe", "-c", "please"}
         },
         {
-            label = "Bash",
+            label = "zsh",
             args = {"C:\\Users\\aekma\\scoop\\apps\\git\\current\\bin\\bash.exe"}
         },
         {
@@ -41,13 +42,15 @@ return {
         }
     },
     use_fancy_tab_bar = false,
-    font = wezterm.font "Mononoki NFM",
+    font = wezterm.font "Hack NFM",
+    font_size = 11,
     color_scheme_dirs = { './colors' },
     color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
     window_frame = {
         font = wezterm.font { family = "Gotham", weight = "Bold"}
     },
     enable_scroll_bar = true,
+    default_prog = def_prog,
     window_padding = {
         left = 0,
         right = 0,
