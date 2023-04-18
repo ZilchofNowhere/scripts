@@ -194,6 +194,12 @@ inoremap <C-c> <C-o>:!run %<CR>
 " Mapping Space-s to open Startify
 nnoremap <leader>s :Startify<CR>
 
+" Mapping actions to carry lines
+vnoremap <C-k> :m '<-2<CR>gv=gv
+vnoremap <C-j> :m '>+1<CR>gv=gv
+nnoremap <C-k> V:m '<-2<CR>V=<ESC>
+nnoremap <C-j> V:m '>+1<CR>V=<ESC>
+
 " Customizing Startify
 "let g:startify_custom_header = startify#pad(split(system('figlet -w 100 "Welcome to Neovim"'), '\n'))
 let g:startify_files_number = 10
