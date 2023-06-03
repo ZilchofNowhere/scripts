@@ -1,5 +1,5 @@
 local wezterm = require "wezterm"
-local def_prog = { "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.3.0_x64__8wekyb3d8bbwe\\pwsh.exe", "-NoLogo", "-NoExit", "-c", "please" }
+local def_prog = { "C:\\Users\\aekma\\scoop\\apps\\pwsh\\current\\pwsh.exe", "-NoLogo", "-NoExit", "-c", "please" }
 
 -- local def_prog = { "C:\\Users\\aekma\\scoop\\apps\\git\\current\\bin\\bash.exe" }
 
@@ -18,7 +18,7 @@ local function scheme_for_appearance(appearance)
     if appearance:find 'Dark' then
         return 'Breeze'
     else
-        return 'One Light (Gogh)'
+        return 'Windows 10 Light (base16)'
     end
 end
 
@@ -30,7 +30,7 @@ return {
         },
         {
             label = "PowerShell",
-            args = {"C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.3.3.0_x64__8wekyb3d8bbwe\\pwsh.exe", "-nol", "-noe", "-c", "please"}
+            args = {"C:\\Users\\aekma\\scoop\\apps\\pwsh\\current\\pwsh.exe", "-nol", "-noe", "-c", "please"}
         },
         {
             label = "zsh",
@@ -42,8 +42,8 @@ return {
         }
     },
     use_fancy_tab_bar = false,
-    font = wezterm.font "Hack NFM",
-    font_size = 11,
+    font = wezterm.font "Mononoki Nerd Font Mono",
+    font_size = 12,
     color_scheme_dirs = { './colors' },
     color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
     window_frame = {
@@ -65,6 +65,7 @@ return {
     initial_cols = 110,
     hide_tab_bar_if_only_one_tab = true,
     adjust_window_size_when_changing_font_size = false,
+    window_background_opacity = 0.95,
     keys = {
         { key = 's', mods = 'CTRL|SHIFT', action = wezterm.action.ShowLauncher },
     },
