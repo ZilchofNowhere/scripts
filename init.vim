@@ -1,4 +1,4 @@
-set guifont=Hasklug\ NFM:h11
+set guifont=Hasklug\ Nerd\ Font\ Mono:h11
 set number
 set cursorline
 set cursorlineopt=both
@@ -18,6 +18,7 @@ set foldlevel=2
 set signcolumn=auto
 set cmdheight=0
 set timeoutlen=200
+set autochdir
 let mapleader = "\<Space>"
 autocmd VimLeave * silent set guicursor=a:ver10-blinkon1
 
@@ -26,7 +27,6 @@ set tabstop=4 softtabstop=4 expandtab shiftwidth=4 smarttab autoindent
 
 " Setting the shell to powershell
 let &shell = executable('pwsh.exe') ? 'pwsh' : 'powershell'
-" let &shell = 'pwsh'
 let &shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
 let &shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
 let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
@@ -62,6 +62,7 @@ Plug 'tomasiser/vim-code-dark'
 Plug 'nacro90/numb.nvim'
 Plug 'xeluxee/competitest.nvim'
 " Plug 'rebelot/heirline.nvim'
+Plug 'arzg/vim-colors-xcode'
 
 " Always set as the last one
 Plug 'kyazdani42/nvim-web-devicons'
@@ -89,6 +90,11 @@ let g:onedark_config = {
 let g:codedark_italics = 1
 let g:codedark_transparent = 0
 colorscheme codedark
+" augroup vim-colors-xcode
+"     autocmd!
+" augroup END
+" autocmd vim-colors-xcode ColorScheme * hi Comment        cterm=italic gui=italic
+" autocmd vim-colors-xcode ColorScheme * hi SpecialComment cterm=italic gui=italic
 
 " Customizing Airline
 if !exists('g:airline_symbols')
@@ -155,15 +161,23 @@ let g:VM_maps['Find Subword Under'] = '<C-d>'
 
 " Mapping Space-e to open explorer
 nnoremap <Space>e :!explorer .<CR>
+
 " Remap <leader>v to visual block mode because Windows Terminal sees Ctrl-V as paste
 nnoremap <leader>v <C-v>
+
+" Enhancing copypasta
+vnoremap <leader>y "+y
+vnoremap <leader>p "+p
+vnoremap <leader>x "_d
+nnoremap <leader>y "+y
+nnoremap <leader>p "+p
+nnoremap <leader>x "_d
 
 " Getting rid of the stupid W (or Q) is not a command error
 cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
 cnoreabbrev <expr> Q ((getcmdtype() is# ':' && getcmdline() is# 'Q')?('q'):('Q'))
-
-" Aliasing `set autochdir` to 'Cd'
-command Cd set autochdir
+cnoreabbrev <expr> Wq ((getcmdtype() is# ':' && getcmdline() is# 'Wq')?('wq'):('Wq'))
+cnoreabbrev <expr> wQ ((getcmdtype() is# ':' && getcmdline() is# 'wQ')?('wq'):('wQ'))
 
 " Mapping common window operations to Space
 nnoremap <leader>c <C-w>c
@@ -187,7 +201,7 @@ nnoremap <leader>f :e ~/AppData/Local/nvim/init.vim<CR>
 nnoremap H :bp<CR>
 nnoremap L :bn<CR>
 
-" Mapping C-x to run the file
+" Mapping C-c to run the file
 nnoremap <C-c> :!run %<CR>
 inoremap <C-c> <C-o>:!run %<CR>
 
@@ -215,10 +229,11 @@ let g:startify_custom_header = 'startify#pad(startify#fortune#cowsay())'
 " Customizing chadtree
 nnoremap <leader>n :CHADopen<CR>
 let g:chadtree_settings = {
-            \'options.show_hidden' : v:false,
+            \'options.show_hidden' : v:true,
             \'ignore.name_exact' : [".DS_Store, .directory, thumbs.db", ".git", "desktop.ini"],
             \'view.width' : 20,
-            \'theme.text_colour_set': "nerdtree_syntax_dark"
+            \'theme.text_colour_set': "trapdoor",
+            \'theme.icon_colour_set': "github",
             \}
 
 " Lua configurations
